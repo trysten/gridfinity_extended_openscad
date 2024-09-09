@@ -21,6 +21,7 @@ module grid_block(
   center_magnet_diameter = 0,
   center_magnet_thickness = 0,
   magnet_easy_release = "off", //[off,inner,outer]
+  magnet_captive = "false",
   $fn = 32,
   help)
 {
@@ -102,6 +103,8 @@ module grid_block(
           overhangFixLayers = overhang_fix,
           overhangFixDepth = overhang_fix_depth,
           easyMagentRelease = magnet_easy_release != MagnetEasyRelease_off);
+          easyMagentRelease = magnet_easy_release != "off",
+          captiveMagnetVoid = magnet_captive);
     }
   }
  

@@ -16,7 +16,7 @@ position = "center"; //[default,center,zero]
 /* [Plate] */
 // Plate Style
 Plate_Style = "base"; //[base:Base plate, lid:Lid that is also a gridfinity base]
-Base_Plate_Options = "default";//[default:Default, magnet:Efficient magnet base, weighted:Weighted base, woodscrew:Woodscrew, cnc:CNC or Laser cut, cncmagnet:CNC cut with Magnets]
+Base_Plate_Options = "default";//[default:Default, magnet:Efficient magnet base, weighted:Weighted base, woodscrew:Woodscrew, cnc:CNC or Laser cut, cncmagnet:CNC cut with Magnets, printinmagnet:captive magnets]
 Lid_Options = "default";//[default, flat:Flat Removes the internal grid from base, halfpitch: halfpitch base, efficient]
 
 Lid_Include_Magnets = true;

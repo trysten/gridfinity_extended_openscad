@@ -166,7 +166,10 @@ module baseplate(
       }
       else if (plateOptions == "cncmagnet"){
         cncmagnet_baseplate(width, depth, roundedCorners=roundedCorners);
-      }      
+      }
+      else if (plateOptions == "printinmagnet"){
+        print_in_magnet_baseplate(width, depth, roundedCorners=roundedCorners);
+      }
       else {
         frame_plain(width, depth, trim=0, roundedCorners=roundedCorners);
       }
@@ -384,6 +387,55 @@ module magnet_baseplate(
                 cube([gf_baseplate_magnet_od,gf_baseplate_magnet_od*2,gf_baseplate_magnet_od],center = true);
 
               translate([xi*(magnet_position-magnetborder/2), yi*(magnet_position+gf_baseplate_magnet_od/2), -fudgeFactor*2]) 
+                cube(gf_baseplate_magnet_od,center = true);
+              }
+            }
+          }
+        }
+    }
+  }
+}
+
+module print_in_magnet_baseplate(
+  num_x, 
+  num_y,
+  cornerRadius = gf_cup_corner_radius,
+  roundedCorners = 15) {
+  
+  magnet_position = min(gf_pitch/2-8, gf_pitch/2-4-gf_baseplate_magnet_od/2);
+  frameHeight = gf_baseplate_magnet_thickness;
+  magnetborder = 5;
+  
+  difference() {
+    translate([0, 0, frameHeight])
+      frame_plain(num_x, num_y, 
+        extra_down=frameHeight,
+        cornerRadius = cornerRadius,
+        roundedCorners = roundedCorners);
+    
+    // subtract magnet void
+    translate([gf_pitch/2,gf_pitch/2])
+    gridcopy(num_x, num_y) {
+      cornercopy(magnet_position, center= true) {
+        translate([0, 0, 0.2])
+         cylinder(d=gf_baseplate_magnet_od, h=1.7, $fn=48);
+      }
+      
+      cubeSize = gf_pitch-magnet_position+gf_baseplate_magnet_od;
+      
+      difference(){
+      translate([-cubeSize/2, -cubeSize/2, -fudgeFactor]) 
+        cube([cubeSize, cubeSize, gf_baseplate_magnet_thickness+fudgeFactor*2]);
+        union(){
+          for(xi = [-1:2:1]){
+            for(yi = [-1:2:1]){
+              translate([xi*magnet_position, yi*magnet_position, -fudgeFactor*2]) 
+                cylinder(d=gf_baseplate_magnet_od+magnetborder, h=gf_baseplate_magnet_thickness+fudgeFactor*4, $fn=48); //rounded corner
+
+              translate([xi*(magnet_position+gf_baseplate_magnet_od/2), yi*(magnet_position-magnetborder/2+gf_baseplate_magnet_od/2), -fudgeFactor*2]) 
+                cube([gf_baseplate_magnet_od,gf_baseplate_magnet_od*2,gf_baseplate_magnet_od],center = true); // gapfill one corner
+
+              translate([xi*(magnet_position-magnetborder/2), yi*(magnet_position+gf_baseplate_magnet_od/2), -fudgeFactor*2]) // and the other two
                 cube(gf_baseplate_magnet_od,center = true);
               }
             }

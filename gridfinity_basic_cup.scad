@@ -58,6 +58,8 @@ horizontal_separator_config = "10.5|21|42|50|60";
 magnet_diameter = 0;  // .1
 //create relief for magnet removal 
 magnet_easy_release  = "auto";//["off","auto","inner","outer"] 
+// inner voids for captive magnets
+magnet_captive = false;
 // (Zack's design uses depth of 6)
 screw_depth = 0;
 center_magnet_diameter =0;
@@ -188,6 +190,7 @@ gridfinity_cup(
   fingerslide_walls=fingerslide_walls,
   magnet_diameter=magnet_diameter,
   magnet_easy_release=magnet_easy_release,
+  magnet_captive=magnet_captive,
   screw_depth=screw_depth,
   center_magnet_diameter=center_magnet_diameter,
   center_magnet_thickness=center_magnet_thickness,

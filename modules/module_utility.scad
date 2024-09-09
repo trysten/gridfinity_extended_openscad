@@ -216,8 +216,9 @@ module SequentialBridgingDoubleHole(
   innerHoleRadius = 0,
   innerHoleDepth = 0,
   overhangBridgeCount = 2,
-  overhangBridgeThickness = 0.3,
+  overhangBridgeThickness = 0.2,
   overhangBridgeCutin =0.05, //How far should the bridge cut in to the second smaller hole. This helps support the
+  captiveMagnetVoid = false,
   fn=64) 
 {
   fudgeFactor = 0.01;
@@ -231,7 +232,15 @@ module SequentialBridgingDoubleHole(
   union(){
     difference(){
       if (hasOuter) {
-        cylinder(r=outerHoleRadius, h=outerPlusBridgeHeight+fudgeFactor, $fn=fn);
+        if (captiveMagnetVoid) {
+          // move the cylinder up into the body by 2lh
+          translate([0,0,0.4])
+          // echo("carving voids")
+          cylinder(r=outerHoleRadius, h=outerPlusBridgeHeight, $fn=fn);
+        }
+        else {
+          cylinder(r=outerHoleRadius, h=outerPlusBridgeHeight+fudgeFactor, $fn=fn);
+        }
       }
       
       if (overhangBridgeCount > 0) {
@@ -302,12 +311,13 @@ module CubeWithRoundedCorner(
 
 module MagentAndScrewRecess(
   magnetDiameter = 10,
-  magnetThickness = 2,
+  magnetThickness = 1.7,
   screwDiameter = 2,
   screwDepth = 6,
   overhangFixLayers = 3,
   overhangFixDepth = 0.2,
   easyMagentRelease = true,
+  captiveMagnetVoid = false,
   $fn = 64){
     fudgeFactor = 0.01;
     
@@ -321,7 +331,8 @@ module MagentAndScrewRecess(
         innerHoleRadius = screwDiameter/2,
         innerHoleDepth = screwDepth > 0 ? screwDepth+fudgeFactor : 0,
         overhangBridgeCount = overhangFixLayers,
-        overhangBridgeThickness = overhangFixDepth);
+        overhangBridgeThickness = overhangFixDepth,
+        captiveMagnetVoid = captiveMagnetVoid);
       
       if(easyMagentRelease && magnetDiameter > 0)
       difference(){

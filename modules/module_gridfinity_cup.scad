@@ -90,6 +90,9 @@ default_horizontal_separator_config = "10.5|21|42|50|60";
 default_magnet_diameter = 6.5;  // .1
 //create relief for magnet removal
 default_magnet_easy_release = "auto";//["off","auto","inner","outer"] 
+default_magnet_easy_release = true;
+// captive magnets
+default_magnet_captive = false;
 // (Zack's design uses depth of 6)
 default_screw_depth = 6;
 default_center_magnet_diameter = 0;
@@ -188,6 +191,7 @@ module gridfinity_cup(
   fingerslide_walls=default_fingerslide_walls,
   magnet_diameter=default_magnet_diameter,
   magnet_easy_release=default_magnet_easy_release,
+  magnet_captive=default_magnet_captive,
   screw_depth=default_screw_depth,
   center_magnet_diameter = default_center_magnet_diameter,
   center_magnet_thickness = default_center_magnet_thickness,
@@ -316,7 +320,8 @@ module gridfinity_cup(
           lip_style == LipStyle_none ? Stackable_disabled 
           : filled_in == FilledIn_enabledfilllip ? Stackable_filllip : Stackable_enabled,
         flat_base=flat_base,
-        magnet_easy_release = magnet_easy_release);
+        magnet_easy_release = magnet_easy_release,
+      magnet_captive = magnet_captive);
 
       if(filled_in == FilledIn_disabled) 
       union(){
